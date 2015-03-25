@@ -4,6 +4,7 @@
 #include <iostream>
 
 #include <tf/transform_broadcaster.h>
+#include <tf/transform_listener.h>
 #include <cmath>
 #include <geometry_msgs/Twist.h>
 #include <geometry_msgs/TransformStamped.h>
@@ -64,16 +65,40 @@ int main(int argc, char **argv){
 	ros::init(argc, argv, "gestures");
 	/// Every ros node needs a node handle, similar to your usual  file handle.
 	ros::NodeHandle nh;
-	ros::Subscriber leftsub= nh.subscribe("/left_hand",100,left);
- 	ros::Subscriber headsub = nh.subscribe("/head",100,head);
- 	ros::Subscriber rightsub = nh.subscribe("/right_hand",100,right);	
+	//ros::Subscriber leftsub= nh.subscribe("/left_hand",100,left);
+ 	//ros::Subscriber headsub = nh.subscribe("/head",100,head);
+ 	//ros::Subscriber rightsub = nh.subscribe("/right_hand",100,right);	
 	// User input
-
-	/// The main loop will run at a rate of 10Hz, i.e., 10 times per second.
-	ros::Rate loop_rate(30);
-	/// Standard way to run ros code. Will quite if ROS is not OK, that is, the master is dead.
+	tf::TransformListener leftlistener;
+	tf::TransformListener headlistener;
+	tf::TransformListener rightlistener;
+	
+	ros::Rate loop_rate(10);
+	
 	while (ros::ok()){
-
+		tf::StampedTransform lefttransform;
+		tf::StampedTransform headtransform;
+		tf::StampedTransform righttransform;
+    try{
+      leftlistener.lookupTransform("/openni_depth_frame", "/left_hand",ros::Time(0), lefttransform);
+    }catch(tf::TransformException ex){
+      ROS_ERROR("%s",ex.what());
+     	ros::Duration(1.0).sleep();
+    }
+    try{
+      headlistener.lookupTransform("/openni_depth_frame", "/head",ros::Time(0), headtransform);
+    }catch(tf::TransformException ex){
+      ROS_ERROR("%s",ex.what());
+      ros::Duration(1.0).sleep();
+    }
+    try{
+     	rightlistener.lookupTransform("/openni_depth_frame", "/right_hand",ros::Time(0), righttransform);
+    }catch(tf::TransformException ex){
+      ROS_ERROR("%s",ex.what());
+     	ros::Duration(1.0).sleep();
+    }
+    
+    checkStartGesture();
 		ros::spinOnce();
 
 		/// Sleep for as long as needed to achieve the loop rate.
