@@ -26,11 +26,11 @@ typedef struct Position{
 	double ox;
 	double oy;
 	double oz;
-  double ow;
+  	double ow;
 	double sec;
-  double nsec;
+  	double nsec;
 	string parentid;
-  string childid;
+  	string childid;
 }Position;
 
 Position leftpos; 
@@ -54,22 +54,22 @@ void left(geometry_msgs::TransformStamped body){
 	tf::transformStampedMsgToTF(body,transform);
   
 
-  leftpos.x=transform.getOrigin().x();
-  leftpos.y=transform.getOrigin().y();
-  leftpos.z=transform.getOrigin().z();
-  leftpos.ox=transform.getRotation().x();
-  leftpos.oy=transform.getRotation().y();
-  leftpos.oz=transform.getRotation().z();
-  leftpos.ow=transform.getRotation().w();
-  leftpos.sec=transform.stamp_.toSec();
-  leftpos.nsec=transform.stamp_.toNSec();
-  leftpos.parentid=transform.frame_id_;
-  leftpos.childid=transform.child_frame_id_;
+	leftpos.x=transform.getOrigin().x();
+  	leftpos.y=transform.getOrigin().y();
+  	leftpos.z=transform.getOrigin().z();
+  	leftpos.ox=transform.getRotation().x();
+  	leftpos.oy=transform.getRotation().y();
+  	leftpos.oz=transform.getRotation().z();
+  	leftpos.ow=transform.getRotation().w();
+  	leftpos.sec=transform.stamp_.toSec();
+  	leftpos.nsec=transform.stamp_.toNSec();
+  	leftpos.parentid=transform.frame_id_;
+  	leftpos.childid=transform.child_frame_id_;
   
- // cout << "FrameID:" << leftpos.parentid << "Child ID" << leftpos.childid << "\n"; 
-//	cout << "Sec:" << leftpos.sec <<"Nsec" << leftpos.nsec << "\n";
- // cout << "Translation" << "X:" << leftpos.y << "Y:" << leftpos.z << "Z" << leftpos.z << "\n";
-  //cout << "Oritentation" << "OX:" << leftpos.ox << "OY:" << leftpos.oy << "OZ" << leftpos.oz << "OW" << leftpos.ow << "\n";
+  	cout << "FrameID:" << leftpos.parentid << "Child ID" << leftpos.childid << "\n"; 
+  	cout << "Sec:" << leftpos.sec <<"Nsec" << leftpos.nsec << "\n";
+  	cout << "Translation" << "X:" << leftpos.y << "Y:" << leftpos.z << "Z" << leftpos.z << "\n";
+  	cout << "Oritentation" << "OX:" << leftpos.ox << "OY:" << leftpos.oy << "OZ" << leftpos.oz << "OW" << leftpos.ow << "\n";
 }
 
 void head(geometry_msgs::TransformStamped body){
@@ -118,7 +118,7 @@ int main(int argc, char **argv){
 	
 	ros::Rate loop_rate(10);
 	
-	while (ros::ok()){
+	while(ros::ok()){
 		tf::StampedTransform lefttransform;
 		tf::StampedTransform headtransform;
 		tf::StampedTransform righttransform;
@@ -144,10 +144,10 @@ int main(int argc, char **argv){
     transfromleft(lefttransform);
     transfromhead(headtransform);
     transfromright(righttransform);
-		ros::spinOnce();
+	ros::spinOnce();
 
-		/// Sleep for as long as needed to achieve the loop rate.
-		loop_rate.sleep();
+	/// Sleep for as long as needed to achieve the loop rate.
+	loop_rate.sleep();
 	}
 	return 0;
 }
