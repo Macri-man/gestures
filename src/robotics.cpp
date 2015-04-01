@@ -108,10 +108,9 @@ int main(int argc, char **argv){
 	ros::init(argc, argv, "gestures");
 	/// Every ros node needs a node handle, similar to your usual  file handle.
 	ros::NodeHandle nh;
-	//ros::Subscriber leftsub= nh.subscribe("/left_hand",100,left);
- 	//ros::Subscriber headsub = nh.subscribe("/head",100,head);
- 	//ros::Subscriber rightsub = nh.subscribe("/right_hand",100,right);	
-	// User input
+	ros::Subscriber leftsub= nh.subscribe("/left_hand",100,left);
+ 	ros::Subscriber headsub = nh.subscribe("/head",100,head);
+ 	ros::Subscriber rightsub = nh.subscribe("/right_hand",100,right);	
 	tf::TransformListener leftlistener;
 	tf::TransformListener headlistener;
 	tf::TransformListener rightlistener;
@@ -123,24 +122,29 @@ int main(int argc, char **argv){
 		tf::StampedTransform headtransform;
 		tf::StampedTransform righttransform;
     try{
+    	ros::Time now = ros::Time::now();
+    	leftlistener.waitForTransform("/openni_depth_frame", "/left_hand",now, ros::Duration(3.0));
       leftlistener.lookupTransform("/openni_depth_frame", "/left_hand",ros::Time(0), lefttransform);
     }catch(tf::TransformException ex){
       ROS_ERROR("%s",ex.what());
      	ros::Duration(1.0).sleep();
     }
     try{
+    	ros::Time now= ros::Time::now();
+    	headlistener.waitForTransform("/openni_depth_frame", "/head",now, ros::Duration(3.0));
       headlistener.lookupTransform("/openni_depth_frame", "/head",ros::Time(0), headtransform);
     }catch(tf::TransformException ex){
       ROS_ERROR("%s",ex.what());
       ros::Duration(1.0).sleep();
     }
     try{
+    	ros::Time now = ros::Time::now();
+    	rightlistener.waitForTransform("/openni_depth_frame", "/right_hand",now, ros::Duration(3.0));
      	rightlistener.lookupTransform("/openni_depth_frame", "/right_hand",ros::Time(0), righttransform);
     }catch(tf::TransformException ex){
       ROS_ERROR("%s",ex.what());
      	ros::Duration(1.0).sleep();
     }
-    
     transfromleft(lefttransform);
     transfromhead(headtransform);
     transfromright(righttransform);
