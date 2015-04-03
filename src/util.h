@@ -8,7 +8,7 @@ typedef Point{
 } Point;
 
 bool isdistance(double dist,double cordist);
-double distance(Point start, Point end);
+double distance(double startx,double starty,double startz,double endx,double endy,double endz);
 double lenArch(Point start,Point mid,Point end);
 
 double angle(Point p1,Point p2);

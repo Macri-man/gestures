@@ -6,8 +6,8 @@ bool isdistance(double dist,double cordist){
 	return dist-.1 <= cordist || cordist <= dist+.1; 
 }
 
-double distance(Point start, Point end){
-	return sqrt(((end.x-start.x)*(end.x-start.x))+((end.y-start.y)*(end.y-start.y))+((end.z-start.z)*(end.z-start.z)));
+double distance(double startx,double starty,double startz,double endx,double endy,double endz){
+	return sqrt(((endx-startx)*(endx-startx))+((endy-starty)*(endy-starty))+((endz-startz)*(endz-startz)));
 }
 
 double lenArch(Point start,Point mid,Point end){

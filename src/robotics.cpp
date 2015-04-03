@@ -16,6 +16,14 @@
 
 using namespace std;
 
+double distance(double startx,double starty,double startz,double endx,double endy,double endz);
+
+
+double distance(double startx,double starty,double startz,double endx,double endy,double endz){
+  return sqrt(((endx-startx)*(endx-startx))+((endy-starty)*(endy-starty))+((endz-startz)*(endz-startz)));
+}
+
+
 void left(geometry_msgs::TransformStamped body);
 void head(geometry_msgs::TransformStamped body);
 void right(geometry_msgs::TransformStamped body);
@@ -233,7 +241,7 @@ int main(int argc, char **argv){
   tf::TransformListener pastheadlistener;
   tf::TransformListener pastrightlistener;
 	
-	ros::Rate loop_rate(10);
+	ros::Rate loop_rate(20);
 	
 	while(ros::ok()){
 		tf::StampedTransform lefttransform;
@@ -292,7 +300,7 @@ int main(int argc, char **argv){
     //printtransfrom(pastrighttransform);
 
 
-    if(.5<sqrt(((pasttransfromleftpos.x-transfromleftpos.x)*(pasttransfromleftpos.x-transfromleftpos.x))+((pasttransfromleftpos.y-transfromleftpos.y)*(pasttransfromleftpos.y-transfromleftpos.y))+((pasttransfromleftpos.z-transfromleftpos.z)*(pasttransfromleftpos.z-transfromleftpos.z)))){
+    if(.1<distance(transfromleftpos.x,transfromleftpos.y,transfromleftpos.z,pasttransfromleftpos.x,pasttransfromleftpos.y,pasttransfromleftpos.z)){
       cerr << "Start gestrure Recognition\n";
     }
 
